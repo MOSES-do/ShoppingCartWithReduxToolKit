@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import { ChevronDown, ChevronUp } from '../icons'
 import { increaseCartItem, decreaseCartItem, removeItem } from '../features/cart/cartSlice'
@@ -18,11 +18,17 @@ const CartItem = ({ id, img, title, price, amount }) => {
                 <button onClick={() => dispatch(increaseCartItem(id))}
                     className="amount-btn"><ChevronUp /></button>
                 <p className="amount">{amount}</p>
-                <button onClick={() => dispatch(decreaseCartItem(id))}
+                <button onClick={() => {
+                    if (amount === 1) {
+                        dispatch(removeItem(id))
+                        return;
+                    }
+                    dispatch(decreaseCartItem(id))
+                }}
                     className="amount-btn"><ChevronDown /></button>
             </div>
         </article>
     )
 }
 
-export default CartItem
+export default memo(CartItem)

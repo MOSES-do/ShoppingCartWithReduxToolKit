@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, memo, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { clearCart, totalCartPrice } from '../features/cart/cartSlice'
+import { totalCartPrice, clearCart } from '../features/cart/cartSlice'
+import { openModal } from '../features/modal/modalSlice'
+
 import CartItem from './CartItem'
 
 
@@ -10,7 +12,8 @@ const CartContainer = () => {
 
     const { cartItems, amount } = useSelector((store) => store.cart);
 
-    const totalCart = cartItems.map(cartItem => Math.round(cartItem.price)).reduce((acc, cv, index) => acc + cv);
+    const totalCart = useMemo(() => cartItems.map(cartItem => (cartItem.price) * cartItem.amount).reduce((acc, cv, index) => acc + cv, 0),
+        [cartItems])
 
     useEffect(() => {
         dispatch(totalCartPrice(totalCart))
@@ -34,19 +37,21 @@ const CartContainer = () => {
                 <h2>Your bag</h2>
             </header>
             <div>
-                {cartItems.map((item) => {
-                    return <CartItem key={item.id} {...item} />
-                })}
+                {
+                    cartItems.map((item) => {
+                        return <CartItem key={item.id} {...item} />
+                    })
+                }
             </div>
             <footer>
                 <hr />
                 <div className="cart-total">
-                    <h4>total <span>${(totalCart)}</span></h4>
+                    <h4>total <span>${(totalCart).toFixed(2)}</span></h4>
                 </div>
-                <button onClick={() => dispatch(clearCart())} className="btn clear-btn">clear cart</button>
+                <button onClick={() => dispatch(openModal(false))} className="btn clear-btn">clear cart</button>
             </footer>
         </section>
     )
 }
 
-export default CartContainer
+export default memo(CartContainer)

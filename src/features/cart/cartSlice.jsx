@@ -32,8 +32,8 @@ const cartSlice = createSlice({
 
         decreaseCartItem: (state, action) => {
             const itemId = action.payload;
-            const cartItem = state.cartItems.map((item) => item.id === itemId)
-            cartItem.item.amount = cartItem.item.amount - 1
+            const cartItem = state.cartItems.find((item) => item.id === itemId)
+            cartItem.amount = cartItem.amount - 1
         },
 
         removeItem: (state, action) => {
