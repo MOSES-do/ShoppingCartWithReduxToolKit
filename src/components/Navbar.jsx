@@ -1,4 +1,4 @@
-import React, { useEffect, memo, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { cartItemsNo } from '../features/cart/cartSlice'
 import { CartIcon } from '../icons'
@@ -8,8 +8,8 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const { cartItems } = useSelector((store) => store.cart)
 
-    const cartItemNo = useMemo(() => cartItems.map(cartItem => cartItem.amount).reduce((acc, cv,) => acc + cv, 0),
-        [cartItems])
+    const cartItemNo = cartItems.map(cartItem => cartItem.amount).reduce((acc, cv,) => acc + cv, 0)
+
 
     useEffect(() => {
         dispatch(cartItemsNo(cartItemNo))
@@ -31,4 +31,4 @@ const Navbar = () => {
     )
 }
 
-export default memo(Navbar)
+export default Navbar

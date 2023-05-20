@@ -9,7 +9,7 @@ const Modal = () => {
     const dispatch = useDispatch()
 
     const closePopup = () => {
-        dispatch(closeModal(true))
+        dispatch(closeModal())
         dispatch(clearCart())
     }
 
@@ -22,7 +22,7 @@ const Modal = () => {
                     <div className="btn-container">
                         <button onClick={closePopup}
                             type="button" className="btn confirm-btn">confirm</button>
-                        <button onClick={() => dispatch(closeModal(true))}
+                        <button onClick={() => dispatch(closeModal())}
                             type="button" className="btn clear-btn">clear</button>
                     </div>
                 </div>

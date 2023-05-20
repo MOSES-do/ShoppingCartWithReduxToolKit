@@ -1,4 +1,4 @@
-import React, { useEffect, memo, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { totalCartPrice, clearCart } from '../features/cart/cartSlice'
 import { openModal } from '../features/modal/modalSlice'
@@ -12,8 +12,7 @@ const CartContainer = () => {
 
     const { cartItems, amount } = useSelector((store) => store.cart);
 
-    const totalCart = useMemo(() => cartItems.map(cartItem => (cartItem.price) * cartItem.amount).reduce((acc, cv, index) => acc + cv, 0),
-        [cartItems])
+    const totalCart = cartItems.map(cartItem => (cartItem.price) * cartItem.amount).reduce((acc, cv, index) => acc + cv, 0)
 
     useEffect(() => {
         dispatch(totalCartPrice(totalCart))
@@ -48,10 +47,10 @@ const CartContainer = () => {
                 <div className="cart-total">
                     <h4>total <span>${(totalCart).toFixed(2)}</span></h4>
                 </div>
-                <button onClick={() => dispatch(openModal(false))} className="btn clear-btn">clear cart</button>
+                <button onClick={() => dispatch(openModal())} className="btn clear-btn">clear cart</button>
             </footer>
         </section>
     )
 }
 
-export default memo(CartContainer)
+export default CartContainer
